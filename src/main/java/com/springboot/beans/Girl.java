@@ -3,6 +3,7 @@ package com.springboot.beans;
 import org.springframework.data.annotation.Id;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.validation.constraints.Min;
 
 /*
  *@Author: XieLiang
@@ -17,6 +18,7 @@ public class Girl {
     @GeneratedValue
     private Integer id;
     private String girlName;
+    @Min(value = 18,message = "未成年少女禁止入内")
     private int age;
     private String cupSize;
 
