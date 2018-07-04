@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -35,6 +36,7 @@ public class GirlController {
      * @return
      */
     @PostMapping(value = "/girls")
+    @Transactional
     public Girl saveGirl(@Valid Girl girl, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             System.out.print(bindingResult.getFieldError().getDefaultMessage());
@@ -62,6 +64,7 @@ public class GirlController {
      * @return
      */
     @PutMapping(value = "/girls/{id}")
+    @Transactional
     public Girl updateGirl(@PathVariable("id") Integer id,
                            Girl girl){
         girl.setId(id);
@@ -76,6 +79,7 @@ public class GirlController {
      * @param id
      */
     @DeleteMapping(value = "/girls/{id}")
+    @Transactional
     public void deleteGirl(@PathVariable("id") Integer id){
         girlRepository.deleteById(id);
     }
