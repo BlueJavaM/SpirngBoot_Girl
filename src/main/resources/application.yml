@@ -1,0 +1,18 @@
+server:
+  port: 8082
+girl:
+  girlName: Christine
+  age: 24
+  cupSize: B
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/dbgirl
+    data-username: root
+    data-password: root
+  jpa:
+    hibernate:
+      ddl-auto: update #自动建表,若表存在数据，不会执行删除表操作
+    show-sql: true
+
+#content: "girlName:${girlName},age:${age},sex:${sex},cupSize:${cupSize}"
