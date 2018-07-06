@@ -3,7 +3,7 @@ package com.springboot.beans;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-/*
+/**
  *@Author: XieLiang
  *@Date : 2018/7/2
  *@Comment :

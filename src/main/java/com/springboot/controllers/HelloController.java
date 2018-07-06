@@ -1,14 +1,12 @@
 package com.springboot.controllers;
 
-import com.springboot.beans.Girl;
 import com.springboot.beans.GirlProperties;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-/*
+/**
  *@Author: XieLiang
  *@Date : 2018/7/2
  *@Comment :

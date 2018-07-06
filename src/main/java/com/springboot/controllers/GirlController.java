@@ -1,18 +1,22 @@
 package com.springboot.controllers;
 
 import com.springboot.beans.Girl;
+import com.springboot.beans.Result;
+import com.springboot.enums.GirlEnum;
 import com.springboot.repository.GirlRepository;
+import com.springboot.services.GirlService;
+import com.springboot.util.ResultUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
-/*
+/**
  *@Author: XieLiang
  *@Date : 2018/7/2
  *@Comment :
@@ -22,12 +26,17 @@ public class GirlController {
     @Autowired
     private GirlRepository girlRepository;
 
+    @Autowired
+    private GirlService girlService;
+
+    private final static Logger logger = LoggerFactory.getLogger(GirlController.class);
     /**
      * 查询所有女生信息
      * @return
      */
     @GetMapping(value = "/girls")
     public List<Girl> getGirlList(){
+        logger.info("getGirlList");
         return girlRepository.findAll();
     }
 
@@ -36,16 +45,18 @@ public class GirlController {
      * @return
      */
     @PostMapping(value = "/girls")
-    @Transactional
-    public Girl saveGirl(@Valid Girl girl, BindingResult bindingResult){
+    public Object saveGirl(@Valid Girl girl, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            System.out.print(bindingResult.getFieldError().getDefaultMessage());
-            return null;
+            return ResultUtil.error(GirlEnum.UNKONW_ERROR.getCode(),GirlEnum.UNKONW_ERROR.getMessage());
+            //表单验证
+           //logger.info(bindingResult.getFieldError().getDefaultMessage());
+
         }
-       girl.setGirlName(girl.getGirlName());
-       girl.setAge(girl.getAge());
-       girl.setCupSize(girl.getCupSize());
-        return  girlRepository.save(girl);
+        return ResultUtil.success(girlRepository.save(girl));
+//        girl.setGirlName(girl.getGirlName());
+//        girl.setAge(girl.getAge());
+//        girl.setCupSize(girl.getCupSize());
+//        return  girlRepository.save(girl);
     }
 
     /**
@@ -55,6 +66,7 @@ public class GirlController {
      */
     @GetMapping(value = "/girls/{id}")
     public Optional<Girl> findGirlById(@PathVariable("id") Integer id){
+        logger.info("findGirlById");
         return girlRepository.findById(id);
     }
 
@@ -64,7 +76,6 @@ public class GirlController {
      * @return
      */
     @PutMapping(value = "/girls/{id}")
-    @Transactional
     public Girl updateGirl(@PathVariable("id") Integer id,
                            Girl girl){
         girl.setId(id);
@@ -79,7 +90,7 @@ public class GirlController {
      * @param id
      */
     @DeleteMapping(value = "/girls/{id}")
-    @Transactional
+    @Transactional(rollbackOn = Exception.class)
     public void deleteGirl(@PathVariable("id") Integer id){
         girlRepository.deleteById(id);
     }
@@ -94,5 +105,8 @@ public class GirlController {
         return girlRepository.findByGirlNameLike('%'+girlName+'%');
     }
 
-
+    @GetMapping(value = "/girls/getAge/{id}")
+    public void getAge(@PathVariable("id") Integer id) throws Exception {
+        girlService.getAge(id);
+    }
 }

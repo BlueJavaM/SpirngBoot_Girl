@@ -4,8 +4,9 @@ import org.springframework.data.annotation.Id;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
-/*
+/**
  *@Author: XieLiang
  *@Date : 2018/7/2
  *@Comment :
@@ -19,6 +20,7 @@ public class Girl {
     private Integer id;
     private String girlName;
     @Min(value = 18,message = "未成年少女禁止入内")
+    @NotNull
     private int age;
     private String cupSize;
 
@@ -55,5 +57,15 @@ public class Girl {
 
     public void setCupSize(String cupSize) {
         this.cupSize = cupSize;
+    }
+
+    @Override
+    public String toString() {
+        return "Girl{" +
+                "id=" + id +
+                ", girlName='" + girlName + '\'' +
+                ", age=" + age +
+                ", cupSize='" + cupSize + '\'' +
+                '}';
     }
 }
